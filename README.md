@@ -12,7 +12,7 @@ The content of that file is very simple (for now, who knows in the future):
 {
         "default": [
                 {
-                        "arn_device": "None"
+                        "arn_device": "arn:aws:iam::<account>:mfa/<name>"
                 }
         ],
         "other-profile": [
