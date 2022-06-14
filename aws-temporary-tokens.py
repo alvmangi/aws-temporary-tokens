@@ -51,9 +51,13 @@ if __name__ == "__main__":
     temporal_access_key = temporal_access['Credentials']['AccessKeyId']
     temporal_secret_key = temporal_access['Credentials']['SecretAccessKey']
     temporal_session_token = temporal_access['Credentials']['SessionToken']
-    # EXPORT THOSE AS SESSION VARIABLES IN CURRENT SHELL
-    os.environ["AWS_ACCESS_KEY_ID"] = temporal_access_key
-    os.environ["AWS_SECRET_ACCESS_KEY"] = temporal_secret_key
-    os.environ["AWS_SESSION_TOKEN"] = temporal_session_token
-    print("OS Session variables have been created. You can now run your own aws commands for the mfa account")
+    # OPEN A NEW TERMINAL WITH TEMPORARY CREDENTIALS
+    export_script = f"export AWS_ACCESS_KEY_ID={temporal_access_key} \
+                         && export AWS_SECRET_ACCESS_KEY={temporal_secret_key} \
+                         && export AWS_SESSION_TOKEN={temporal_session_token}"
+    if sys.platform == 'darwin':
+        terminal_command = f"/usr/bin/osascript -e 'tell application \"Terminal\" to do script \"{export_script}\"'"
+    else:
+        terminal_command =  f"xterm -e /bin/bash -l -c \"{export_script}\""
+    subprocess.run(terminal_command, shell=True)
     sys.exit(0)
