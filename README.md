@@ -29,7 +29,7 @@ Once you have that, you can just execute the script (Python3):
 or
 - python aws-temporary-tokens.py -c 556677 -p other-profile
 
-This will create the following OS environment variables:
+This will open a new terminal with these variables attached to it:
 * AWS_ACCESS_KEY_ID
 * AWS_SECRET_ACCESS_KEY
 * AWS_SESSION_TOKEN
