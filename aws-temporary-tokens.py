@@ -20,21 +20,24 @@ if __name__ == "__main__":
     # ARGPARSE ARGUMENTS
     parser = ArgumentParser(description=command_description)   
     parser.add_argument('-c', '--mfa_code', type=str, required=True, help=command_mfa_help)
-    parser.add_argument('-d', '--mfa_device', type=str, required=False, help=command_mfa_arn_help)
-    parser.add_argument('-t', '--time', type=str, required=False, help=command_time_help, default='900')
-    parser.add_argument('-p', '--profile', type=str, required=False, help=command_profile_help, default="default")
+    parser.add_argument('-d', '--mfa_device', type=str, required=False, help=command_mfa_arn_help, default='None')
+    parser.add_argument('-t', '--time', type=str, required=False, help=command_time_help, default='28800')
+    parser.add_argument('-p', '--profile', type=str, required=False, help=command_profile_help, default='default')
     # ARGPARSE OBJECT
     args = parser.parse_args()
-    # OPEN CONFIGURATION FILE
-    configuration_file = str(Path.home()) + "/.aws_temporary_tokens.json"
-    try:
-        with open(configuration_file) as conf:
-            conf_data = json.load(conf)
-    except Exception as e:
-        print(f'There was an error trying to load the local configuration file: {e}')
-        sys.exit(1)
-    # Look for specified profile
-    mfa_device = conf_data[f'{args.profile}'][0]['arn_device']
+    # OPEN CONFIGURATION FILE IF NO MFA_DEVICE ON ARGUMENTS
+    if args.mfa_device == 'None':
+        configuration_file = str(Path.home()) + "/.aws_temporary_tokens.json"
+        try:
+            with open(configuration_file) as conf:
+                conf_data = json.load(conf)
+        except Exception as e:
+            print(f'There was an error trying to load the local configuration file: {e}')
+            sys.exit(1)
+        # Look for specified profile
+        mfa_device = conf_data[f'{args.profile}'][0]['arn_device']
+    else:
+        mfa_device = args.mfa_device
     # Execute sts commands
     sts_command = f"sts get-session-token \
                     --duration-seconds {args.time} \
