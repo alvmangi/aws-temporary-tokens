@@ -3,9 +3,10 @@ Python script for enabling AWS temporary tokens for your CLI commands when MFA i
 
 You need to have first the following:
 
-1. An AWS user account.
-2. An AccessKey and SecretKey already assigned to your user.
-3. A JSON File in your home directory named ".aws_temporary_tokens.json".
+1. Python 3.7 or newer
+2. An AWS user account.
+3. An AccessKey and SecretKey already assigned to your user.
+4. A JSON File in your home directory named ".aws_temporary_tokens.json" if you have different AWS profiles.
 
 The content of that file is very simple (for now, who knows in the future):
 ```
@@ -25,9 +26,9 @@ The content of that file is very simple (for now, who knows in the future):
 
 Once you have that, you can just execute the script (Python3):
 
-- python aws-temporary-tokens.py -c 556677
+- python3 aws-temporary-tokens.py -c 556677
 or
-- python aws-temporary-tokens.py -c 556677 -p other-profile
+- python3 aws-temporary-tokens.py -c 556677 -p other-profile
 
 This will open a new terminal with these variables attached to it:
 * AWS_ACCESS_KEY_ID
