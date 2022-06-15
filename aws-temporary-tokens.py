@@ -56,11 +56,12 @@ if __name__ == "__main__":
     temporal_session_token = temporal_access['Credentials']['SessionToken']
     # OPEN A NEW TERMINAL WITH TEMPORARY CREDENTIALS
     export_script = f"export AWS_ACCESS_KEY_ID={temporal_access_key} \
-                         && export AWS_SECRET_ACCESS_KEY={temporal_secret_key} \
-                         && export AWS_SESSION_TOKEN={temporal_session_token}"
+                        && export AWS_SECRET_ACCESS_KEY={temporal_secret_key} \
+                        && export AWS_SESSION_TOKEN={temporal_session_token}"
     if sys.platform == 'darwin':
         terminal_command = f"/usr/bin/osascript -e 'tell application \"Terminal\" to do script \"{export_script}\"'"
+        subprocess.run(terminal_command, shell=True)
     else:
-        terminal_command =  f"xterm -e /bin/bash -l -c \"{export_script}\""
-    subprocess.run(terminal_command, shell=True)
+        print("Please copy/paste the following in your terminal:\n")
+        print(f"{export_script}\n")
     sys.exit(0)
