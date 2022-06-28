@@ -8,7 +8,8 @@ You need to have first the following:
 3. An AccessKey and SecretKey already assigned to your user.
 4. A JSON File in your home directory named ".aws_temporary_tokens.json" if you have different AWS profiles.
 
-The content of that file is very simple (for now, who knows in the future):
+The content of that file is very simple (for now, who knows in the future). You need to have one entry for each profile defined 
+in your ./aws/credentials file. Also, the name of the profiles must match in both files.:
 ```
 {
         "default": [
