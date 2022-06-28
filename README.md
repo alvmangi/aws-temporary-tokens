@@ -3,20 +3,20 @@ Python script for enabling AWS temporary tokens for your CLI commands when MFA i
 
 You need to have first the following:
 
-1. Python **3.7** or newer
+1. Python **3.7** or **newer**
 2. An AWS user account.
-3. An AccessKey and SecretKey already assigned to your user.
+3. An **AccessKey** and **SecretKey** already assigned to your user.
 4. The arn of the [assigned MFA device](https://us-east-1.console.aws.amazon.com/iam/home#/security_credentials).
-4. Confirm that your default output is json on your ~/.aws/config file. Example:
+4. Confirm that your default output is json in your **~/.aws/config** file. Example:
 ```
-[profile my_second_profile]
-region = us-east-2
-output = json
+    [profile my_second_profile]
+    region = us-east-2
+    output = json
 ```
-5. A JSON File in your home directory named ".aws_temporary_tokens.json" if you have different AWS profiles.
+5. A JSON file in your home directory named **".aws_temporary_tokens.json"** if you have different AWS profiles and/or don't want to pass the arn of the MFA device everytime.
 
-The content of that file is very simple (for now, who knows in the future). You need to have one entry for each profile defined 
-in your ~/.aws/credentials file. Also, the name of the profiles must match in both files:
+The content of that file is very simple (for now, who knows in the future). You need to have an entry for each profile defined 
+in your **~/.aws/credentials** file. Also, the name of the profiles **must match in both files**:
 ```
 {
         "default": [
