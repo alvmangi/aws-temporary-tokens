@@ -61,3 +61,5 @@ For Linux, you can copy/paste the variables and export those in any terminal.
 Then you will be able to run your aws cli commands as usual.
 - aws s3 ls
 - etc
+
+## **Once you have this new terminal open with the env variables then you don't need to pass the --profile option to any of your commands because that will make them to fail.** ##
