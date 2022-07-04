@@ -31,8 +31,8 @@ if __name__ == "__main__":
         try:
             with open(configuration_file) as conf:
                 conf_data = json.load(conf)
-        except Exception as e:
-            print(f'There was an error trying to load the local configuration file: {e}')
+        except Exception:
+            print(f'There was an error trying to load the local configuration file. Please confirm the file exist or json syntax is correct.')
             sys.exit(1)
         # Look for specified profile
         mfa_device = conf_data[f'{args.profile}'][0]['arn_device']
