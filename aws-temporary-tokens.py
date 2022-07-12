@@ -21,7 +21,7 @@ if __name__ == "__main__":
     parser = ArgumentParser(description=command_description)
     parser.add_argument('-c', '--mfa_code', type=str, required=True, help=command_mfa_help)
     parser.add_argument('-d', '--mfa_device', type=str, required=False, help=command_mfa_arn_help, default='None')
-    parser.add_argument('-t', '--time', type=str, required=False, help=command_time_help, default='28800')
+    parser.add_argument('-t', '--time', type=str, required=False, help=command_time_help, default='86400')
     parser.add_argument('-p', '--profile', type=str, required=False, help=command_profile_help, default='default')
     # ARGPARSE OBJECT
     args = parser.parse_args()
