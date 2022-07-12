@@ -21,7 +21,7 @@ if __name__ == "__main__":
     parser = ArgumentParser(description=command_description)
     parser.add_argument('-c', '--mfa_code', type=str, required=True, help=command_mfa_help)
     parser.add_argument('-d', '--mfa_device', type=str, required=False, help=command_mfa_arn_help, default='None')
-    parser.add_argument('-t', '--time', type=str, required=False, help=command_time_help, default='28800')
+    parser.add_argument('-t', '--time', type=str, required=False, help=command_time_help, default='86400')
     parser.add_argument('-p', '--profile', type=str, required=False, help=command_profile_help, default='default')
     # ARGPARSE OBJECT
     args = parser.parse_args()
@@ -31,8 +31,8 @@ if __name__ == "__main__":
         try:
             with open(configuration_file) as conf:
                 conf_data = json.load(conf)
-        except Exception as e:
-            print(f'There was an error trying to load the local configuration file: {e}')
+        except Exception:
+            print(f'There was an error trying to load the local configuration file. Please confirm the file exist or json syntax is correct.')
             sys.exit(1)
         # Look for specified profile
         mfa_device = conf_data[f'{args.profile}'][0]['arn_device']
