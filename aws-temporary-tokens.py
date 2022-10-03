@@ -25,29 +25,39 @@ if __name__ == "__main__":
     parser.add_argument('-p', '--profile', type=str, required=False, help=command_profile_help, default='default')
     # ARGPARSE OBJECT
     args = parser.parse_args()
+    print("[+] Parsing object for given arguments")
     # OPEN CONFIGURATION FILE IF NO MFA_DEVICE ON ARGUMENTS
     if args.mfa_device == 'None':
         configuration_file = str(Path.home()) + "/.aws_temporary_tokens.json"
+        print(f"[+] MFA not passed as argument. Opening {configuration_file}.")
         try:
             with open(configuration_file) as conf:
+                print(f"[+] Loading configuration data for profile {args.profile}")
                 conf_data = json.load(conf)
-        except Exception as e:
-            print(f'There was an error trying to load the local configuration file: {e}')
+        except Exception:
+            print(f"[-] There was an error trying to load the local configuration file. Please confirm the file exist or json syntax is correct.")
             sys.exit(1)
         # Look for specified profile
-        mfa_device = conf_data[f'{args.profile}'][0]['arn_device']
+        mfa_device = conf_data['default'][0]['arn_device'] if args.profile == 'default' else conf_data[f'{args.profile}'][0]['arn_device']
     else:
         mfa_device = args.mfa_device
     # Execute sts commands
-    sts_command = f"sts get-session-token \
-                    --duration-seconds {args.time} \
-                    --serial-number {mfa_device} \
-                    --token-code {args.mfa_code} \
-                    --profile {args.profile}"
+    if args.profile == 'default':
+        sts_command = f"sts get-session-token \
+                        --duration-seconds {args.time} \
+                        --serial-number {mfa_device} \
+                        --token-code {args.mfa_code}"
+    else:
+        sts_command = f"sts get-session-token \
+                        --duration-seconds {args.time} \
+                        --serial-number {mfa_device} \
+                        --token-code {args.mfa_code} \
+                        --profile {args.profile}"
     try:
-        sts_output = subprocess.run("aws " + f"{sts_command}", shell=True, capture_output=True, text=True).stdout
+        print("[+] Executing STS command with given arguments.")
+        sts_output = subprocess.run("aws " + f"{sts_command}", shell=True, capture_output=True, text=True, check=True).stdout
     except Exception as e:
-        print(e)
+        print(f"[-] There was an error executing STS command: {e}")
         sys.exit(1)
     # GETTING NEW GENERATED CREDENTIALS
     temporal_access = json.loads(sts_output)
